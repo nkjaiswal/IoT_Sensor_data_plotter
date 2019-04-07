@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+<body>
+
+	<h3>Select Sensor:<select id="sensor_list"></select></h3><hr>
+	<div id="chartContainer" style="height: 90%; width: 100%;"></div>
+</body>
+<script>
+var sensor_list = document.getElementById("sensor_list");
+function load_sensors_list(){
+	$.get("/api/v1/sensors", function(data, status){
+		for(var i=0; i<data.length; i++){
+			var option = document.createElement("option");
+			option.text = data[i];
+			sensor_list.add(option);
+		}
+    });
+}
+load_sensors_list();
+function getChartData(data, property){
+	var data_points = [];
+	for(var d in data){
+		data_points.push({
+			x: new Date(data[d].received_at),
+			y: parseInt(data[d][property])
+		});
+	}
+	return data_points;
+}
+function getAllPropertyFromObjectList(data){
+	var properties = [];
+	for(var i=0; i<data.length; i++){
+		for(var p in data[i]){
+			if(properties.indexOf(p)<0 && p != "received_at"){
+				properties.push(p);
+			}
+		}
+	}
+	return properties;
+}
+function fetchData(callback){
+	var sensor_list = document.getElementById("sensor_list");
+	var selected_sensor = sensor_list.options[sensor_list.selectedIndex].value;
+	var final_data = [];
+	$.get("/api/v1/sensor-data/"+selected_sensor, function(data, status){
+		var properties = getAllPropertyFromObjectList(data.data);
+		for(var property in properties){
+			final_data.push({
+				type: "line",
+				dataPoints: getChartData(data.data, properties[property])
+			});
+		}
+		callback(final_data);
+	});
+}
+function refresh_chart(){
+	fetchData(function(data_points){
+		var chart = new CanvasJS.Chart("chartContainer",{
+	      	title:{
+	      		text: "Sensor Data"  
+	      	},
+	      	data: data_points
+	    });
+
+	    chart.render();
+		setTimeout(refresh_chart, 2000);
+	});
+	
+}
+setTimeout(refresh_chart, 2000);
+
+
+
+</script>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "iot_sensor_data_plotter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkjaiswal/IoT_Sensor_data_plotter.git"
+  },
+  "author": "Nishant",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nkjaiswal/IoT_Sensor_data_plotter/issues"
+  },
+  "dependencies": {
+    "cookie-session": "^1.3.3",
+    "express": "^4.16.4"
+  },
+  "homepage": "https://github.com/nkjaiswal/IoT_Sensor_data_plotter#readme"
+}
