@@ -31,7 +31,7 @@ function clear_data() {
 clear_data();
 
 
-let MAX_DATA = 5000;
+let MAX_DATA = 300;
 
 app.get("/api/v1/add-sensor-data",function(req,res){
 	validateRequest(req);
