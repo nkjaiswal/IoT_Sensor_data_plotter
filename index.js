@@ -30,6 +30,14 @@ function clear_data() {
 }
 clear_data();
 
+let MIN_GAP_BETWEEN_TWO_SF_TICKETS_IN_SEC = 30;
+function isRecentSfTicketCreated(sensor_id){
+	if(new Date() - sensor_data[sensor_id].last_data_received > (MIN_GAP_BETWEEN_TWO_SF_TICKETS_IN_SEC * 1000)){
+		return false;
+	}else{
+		return true;
+	}
+}
 
 let MAX_DATA = 5000;
 
@@ -39,13 +47,16 @@ app.get("/api/v1/add-sensor-data",function(req,res){
 	console.log("Received data for sensor " + sensor_id);
 	create_sensor_entry_if_not_present(sensor_id);
 	populate_sensor_data(req.query);
+	if(isRecentSfTicketCreated(sensor_id)){
+		res.end({message:"Not Creating SF Ticket as few moment back it is created"});
+		return;
+	}
 	create_salesforce_iot_entry(req.query, function(isDone){
 		if(isDone)
-			res.end("done");
+			res.json({message:"Received message and Created SF Ticket"});
 		else
 			res.json({error:"Not able to connect to Salesforce"});
-	})
-	
+	});
 });
 
 app.get("/api/v1/sensor-data/:sensor_id",function(req,res){
