@@ -31,8 +31,10 @@ function clear_data() {
 clear_data();
 
 let MIN_GAP_BETWEEN_TWO_SF_TICKETS_IN_SEC = 30;
+var ticket = {};
 function isRecentSfTicketCreated(sensor_id){
-	if(new Date() - sensor_data[sensor_id].last_data_received > (MIN_GAP_BETWEEN_TWO_SF_TICKETS_IN_SEC * 1000)){
+	if(new Date() - ticket[sensor_id] > (MIN_GAP_BETWEEN_TWO_SF_TICKETS_IN_SEC * 1000)){
+		ticket[sensor_id] = new Date();
 		return false;
 	}else{
 		return true;
