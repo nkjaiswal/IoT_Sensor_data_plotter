@@ -48,7 +48,7 @@ app.get("/api/v1/add-sensor-data",function(req,res){
 	create_sensor_entry_if_not_present(sensor_id);
 	populate_sensor_data(req.query);
 	if(isRecentSfTicketCreated(sensor_id)){
-		res.end({message:"Not Creating SF Ticket as few moment back it is created"});
+		res.json({message:"Not Creating SF Ticket as few moment back it is created"});
 		return;
 	}
 	create_salesforce_iot_entry(req.query, function(isDone){
