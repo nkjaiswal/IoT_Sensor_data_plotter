@@ -98,7 +98,8 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 var create_iot_data_url = "https://curious-badger-r87z88-dev-ed.my.salesforce.com/services/data/v45.0/sobjects/Vehicle_Sensor__e/";
-function create_salesforce_iot_entry(query, callback){
+function create_salesforce_iot_entry(q, callback){
+	var query = JSON.parse(JSON.stringify(q));
 	let sensor_id = query.sensor_id;
 	console.log("populating data for sensor " + sensor_id);
 	delete query.sensor_id;
