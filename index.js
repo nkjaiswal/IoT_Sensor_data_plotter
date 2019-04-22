@@ -15,6 +15,8 @@ var server = app.listen(port, function(){
     console.log('Listening at http://127.0.0.1:' + port);    
 });
 
+
+
 app.use('/', express.static('public'))
 
 var sensor_data = {};
@@ -159,5 +161,13 @@ function get_salesforce_access_token(callback){
 	});
 }
 
+function clearAll(){
+	sensor_data = {};
+	ticket = {};
+}
 
+app.get("/api/v1/clear",function(req,res){
+	clearAll();
+  	res.json({});
+});
 
