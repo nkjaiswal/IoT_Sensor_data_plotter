@@ -59,13 +59,25 @@ app.get("/api/v1/add-sensor-data",function(req,res){
 		res.json({message:"Not Creating SF Ticket as few moment back it is created"});
 		return;
 	}
-	create_salesforce_iot_entry(req.query, function(isDone){
+
+	var qry = copy(req.query);
+
+	delete qry.sensor_id;
+	delete qry.token;
+	delete qry.received_at;
+	delete qry.lat;
+	delete qry.lng;
+	create_salesforce_iot_entry(sensor_id, qry, function(isDone){
 		if(isDone)
 			res.json({message:"Received message and Created SF Ticket"});
 		else
 			res.json({error:"Not able to connect to Salesforce"});
 	});
 });
+
+function copy(val){
+	return JSON.parse(JSON.stringify(val));
+}
 
 app.get("/api/v1/sensor-data/:sensor_id",function(req,res){
 	res.json(sensor_data[req.params.sensor_id]);
@@ -85,6 +97,7 @@ function validateRequest(req){
 	console.log("Validation Successfull for sensor " + sensor_id);
 }
 
+var sensor_location = {};
 function create_sensor_entry_if_not_present(sensor_id){
 	console.log("Checking sensor details already present or not sensor " + sensor_id);
 	if(sensor_data[sensor_id] == undefined){
@@ -102,6 +115,13 @@ function populate_sensor_data(query){
 	console.log("populating data for sensor " + sensor_id);
 	delete query.sensor_id;
 	delete query.token;
+	if(!isEmpty(query.lat) && !isEmpty(query.lng)){
+		sensor_location[sensor_id] = {
+			lat: parseFloat(query.lat),
+			lng: parseFloat(query.lng)
+		};
+		console.log("Sensor Location" + JSON.stringify(sensor_location[sensor_id]));
+	}
 	query.received_at = new Date();
 	sensor_data[sensor_id].last_data_received = new Date();
 	sensor_data[sensor_id].data.push(query);
@@ -112,18 +132,18 @@ function populate_sensor_data(query){
 	console.log(JSON.stringify(sensor_data[sensor_id],null,4));
 }
 
+function isEmpty(val){
+	return val == null || val == undefined || val == "";
+}
 //------------SALESFORCE OPERATIONS------------
 var Client = require('node-rest-client').Client;
 var client = new Client();
 
 var create_iot_data_url = "https://curious-badger-r87z88-dev-ed.my.salesforce.com/services/data/v45.0/sobjects/Vehicle_Sensor__e/";
-function create_salesforce_iot_entry(q, callback){
+function create_salesforce_iot_entry(sensor_id, q, callback){
 	var query = JSON.parse(JSON.stringify(q));
-	let sensor_id = query.sensor_id;
+	
 	console.log("populating data for sensor " + sensor_id);
-	delete query.sensor_id;
-	delete query.token;
-	delete query.received_at;
 	query.Registration_Number__c = sensor_id;
 	console.log("SF Query", query);
 	get_salesforce_access_token(function(token){
@@ -170,4 +190,29 @@ app.get("/api/v1/clear",function(req,res){
 	clearAll();
   	res.json({});
 });
+//------------------------MAP OPERARTION -------------------
+var service_centers = require("./service_center.json");
+app.get("/api/v1/service-centers/:lat/:lng", function(req,res){
+	var lat = req.params.lat;
+	var lng = req.params.lng;
+	if(isEmpty(lat) || isEmpty(lng)){
+		res.json([]);
+		return;
+	}
+	var sc = JSON.parse(JSON.stringify(service_centers));
+	for(var i=0; i<sc.length; i++){
+		sc[i].sort_rank = calculate_distance(sc[i].lat, sc[i].lng, lat, lng);
+	}
+	res.json(sc.sort((a,b) => a.sort_rank - b.sort_rank));
+});
+
+function calculate_distance(lat1, lng1, lat2, lng2){
+	return Math.sqrt(((lat1-lat2)*(lat1-lat2))+((lng1-lng2)*(lng1-lng2)));
+}
+
+app.get("/api/v1/sensor-location/:sensor_id", function(req, res){
+	res.json(sensor_location[req.params.sensor_id]);
+});
+
+
 
