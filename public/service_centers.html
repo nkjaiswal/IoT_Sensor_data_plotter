@@ -18,12 +18,13 @@
     </style>
 </head>
 <body>
-	<div align="center">
-		<div style="background-color:#014864;width: 100%;"><img src="/images/IoT.png" style="height: 200px"></div>
+	<div>
+		<div style="background-color:#014864;width: 100%;"><img src="/images/IoT.png" style="height: 70px"></div>
 		
 	</div>
 	<br>
 	<div id="map" class=""></div>
+	<br>
 	<center>
 	<table border=1 id="service_center_list" class="w3-container">
 		<th>Service Center</th>
@@ -32,16 +33,6 @@
 	</center>
 </body>
 <script>
-
-function load_sensors_list(){
-	$.get("/api/v1/sensors", function(data, status){
-		for(var i=0; i<data.length; i++){
-			var option = document.createElement("option");
-			option.text = data[i];
-			sensor_list.add(option);
-		}
-    });
-}
 
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -61,21 +52,30 @@ function initMap(position) {
     var map = new google.maps.Map(document.getElementById('map'), arg);
     var marker = new google.maps.Marker({
         position: arg.center,
+        animation: google.maps.Animation.DROP,
+        draggable:true,
         map: map,
         title: 'Your Location'
     });
+    google.maps.event.addListener(marker, 'dragend', function() {
+	    loadServiceCenter(marker.getPosition().lat(), marker.getPosition().lng());
+	});
 }
 
 function init() {
 	var sensor_id = getParameterByName("sensor_id");
 	$.get("/api/v1/sensor-location/" + sensor_id, function(data, status){
 		initMap(data);
-		$.get("/api/v1/service-centers/" + data.lat + "/" + data.lng, function(data, status){
-			data.map(appendData);
-	    });
+		loadServiceCenter(data.lat, data.lng);
     });
 }
 
+function loadServiceCenter(lat,lng){
+	document.getElementById("service_center_list").innerHTML = "";
+	$.get("/api/v1/service-centers/" + lat + "/" + lng, function(data, status){
+		data.map(appendData);
+	});
+}
 function appendData(data){
 	let frag = document.createDocumentFragment();
   	let tr = document.createElement('tr');
