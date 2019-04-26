@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 50%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+</head>
+<body>
+	<div align="center">
+		<div style="background-color:#014864;width: 100%;"><img src="/images/IoT.png" style="height: 200px"></div>
+		
+	</div>
+	<br>
+	<div id="map" class=""></div>
+	<center>
+	<table border=1 id="service_center_list" class="w3-container">
+		<th>Service Center</th>
+		<th>Phone No</th>
+	</table>
+	</center>
+</body>
+<script>
+
+function load_sensors_list(){
+	$.get("/api/v1/sensors", function(data, status){
+		for(var i=0; i<data.length; i++){
+			var option = document.createElement("option");
+			option.text = data[i];
+			sensor_list.add(option);
+		}
+    });
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+	name = name.replace(/[\[\]]/g, "\\$&");
+	var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+		results = regex.exec(url);
+	if (!results) return null;
+	if (!results[2]) return '';
+	return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+function initMap(position) {
+	var arg = {
+        center: position,
+        zoom: 17
+    }
+    var map = new google.maps.Map(document.getElementById('map'), arg);
+    var marker = new google.maps.Marker({
+        position: arg.center,
+        map: map,
+        title: 'Your Location'
+    });
+}
+
+function init() {
+	var sensor_id = getParameterByName("sensor_id");
+	$.get("/api/v1/sensor-location/" + sensor_id, function(data, status){
+		initMap(data);
+		$.get("/api/v1/service-centers/" + data.lat + "/" + data.lng, function(data, status){
+			data.map(appendData);
+	    });
+    });
+}
+
+function appendData(data){
+	let frag = document.createDocumentFragment();
+  	let tr = document.createElement('tr');
+
+  	let td1 = document.createElement('td');
+  	td1.appendChild(document.createTextNode(data.Name));
+  	tr.appendChild(td1);
+
+  	let td2 = document.createElement('td');
+  	let link = document.createElement('a');
+  	link.href = 'tel:' + data.Phone;
+  	link.title = data.Phone;
+  	link.innerHTML = data.Phone;
+
+  	td2.appendChild(link);
+  	tr.appendChild(td2);
+
+  	frag.appendChild(tr);
+  	document.getElementById("service_center_list").appendChild(frag);
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCx_xWT0W5vuFDWObjN5chhcqhyJpEPnGE&callback=init" async defer></script>
+
+</html>
