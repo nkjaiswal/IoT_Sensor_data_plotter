@@ -1,0 +1,42 @@
+[
+	{
+		"id":1,
+		"lat":17.424080, 
+		"lng":78.376694,
+		"Name": "BMW Service Center, Raidurgam Branch",
+		"Phone": "+917760533699",
+		"isTiedUp": true
+	},
+	{
+		"id":2,
+		"lat":17.424090, 
+		"lng":78.376714,
+		"Name": "SpaceX Service Center, Gachibowli Branch",
+		"Phone": "+917760533699",
+		"isTiedUp": true
+	},
+	{
+		"id":3,
+		"lat":17.424080, 
+		"lng":78.376614,
+		"Name": "NASA Service Center, Prashant Hill Branch",
+		"Phone": "+917760533699",
+		"isTiedUp": true
+	},
+	{
+		"id":4,
+		"lat":17.424180, 
+		"lng":78.376094,
+		"Name": "ISRO Service Center, Khajaguda Branch",
+		"Phone": "+917760533699",
+		"isTiedUp": false
+	},
+	{
+		"id":5,
+		"lat":17.424280, 
+		"lng":78.376994,
+		"Name": "Salesforce Service Center, Divya sree Branch",
+		"Phone": "+917760533699",
+		"isTiedUp": false
+	}
+]
