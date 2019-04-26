@@ -123,6 +123,8 @@ function populate_sensor_data(query){
 		console.log("Sensor Location" + JSON.stringify(sensor_location[sensor_id]));
 	}
 	query.received_at = new Date();
+	delete query.lat;
+	delete query.lng;
 	sensor_data[sensor_id].last_data_received = new Date();
 	sensor_data[sensor_id].data.push(query);
 	if(sensor_data[sensor_id].data.length > MAX_DATA){
