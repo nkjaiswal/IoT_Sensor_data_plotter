@@ -24,7 +24,34 @@
       <img src="/images/IoT.png" style="height: 70px;padding: 10px;"> <span id="caseno">Case#12345</span>
     </div>
 	</div>
-	<br>
+	
+
+
+
+<div class="demo-only slds-hide" id="demo-only"  style="height: 4rem; position:absolute;left:35%;top:1%">
+<div class="slds-notify_container slds-is-relative">
+<div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+<span class="slds-assistive-text">success</span>
+<span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+<svg class="slds-icon slds-icon_small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#success" />
+</svg>
+</span>
+<div class="slds-notify__content">
+<h2 class="slds-text-heading_small ">Tow Truck Requested.</h2>
+</div>
+<div class="slds-notify__close">
+<button class="slds-button slds-button_icon slds-button_icon-inverse" title="Close">
+<svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#close" />
+</svg>
+<span class="slds-assistive-text">Close</span>
+</button>
+</div>
+</div>
+</div>
+</div>  
+
 
 
 
@@ -39,7 +66,7 @@
 <a aria-selected="true" class="slds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="0">
 <span class="slds-path__stage">
 <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>
 <span class="slds-assistive-text">Current Stage:</span>
 </span>
@@ -50,7 +77,7 @@
 <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
 <span class="slds-path__stage">
 <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>
 </span>
 <span class="slds-path__title">Workshop Assigned</span>
@@ -60,7 +87,7 @@
 <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="-1">
 <span class="slds-path__stage">
 <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>
 </span>
 <span class="slds-path__title">Under Assessment</span>
@@ -70,7 +97,7 @@
 <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-4" role="option" tabindex="-1">
 <span class="slds-path__stage">
 <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>
 </span>
 <span class="slds-path__title">Assessment Completed</span>
@@ -80,7 +107,7 @@
 <a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
 <span class="slds-path__stage">
 <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>
 </span>
 <span class="slds-path__title">Closed</span>
@@ -100,7 +127,7 @@
 
 
 	<div id="map" class=""></div>
-	<br>
+	
 	<center>
 	
 	</center>
@@ -131,9 +158,9 @@
 </article>
 
 <center>
-<button class="slds-button slds-button_brand slds-path__mark-complete" onclick="confirmationDialog">
+<button class="slds-button slds-button_brand slds-path__mark-complete" onclick="confirmationDialog()">
 <svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
-<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="./salesforce-lightning-design-system-2.8.3/assets/icons/utility-sprite/svg/symbols.svg#check" />
 </svg>Request Tow Truck</button>
 </center>
 
@@ -144,7 +171,10 @@
 <script>
 
 function confirmationDialog(){
-
+  document.getElementById("demo-only").classList.remove("slds-hide")
+  setTimeout(function(){
+    document.getElementById("demo-only").classList.add("slds-hide")
+  },2000);
 }
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
