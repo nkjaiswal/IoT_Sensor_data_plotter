@@ -20,8 +20,9 @@
 </head>
 <body>
 	<div>
-		<div style="background-color:#014864;width: 100%;"><img src="/images/IoT.png" style="height: 70px"></div>
-		
+		<div style="background-color:#014864;width: 100%; font-size : 150%; color: white"> 
+      <img src="/images/IoT.png" style="height: 70px;padding: 10px;"> <span id="caseno">Case#12345</span>
+    </div>
 	</div>
 	<br>
 
@@ -123,7 +124,7 @@
         </header>
     </div>
     <div class="slds-card__body">
-        <table border=1 id="service_center_list" class="w3-container">
+        <table border=1 id="service_center_list" class="slds-table slds-table_cell-buffer slds-table_bordered">
     
     </table>
     </div>
@@ -143,7 +144,7 @@
 <script>
 
 function confirmationDialog(){
-  
+
 }
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -175,6 +176,8 @@ function initMap(position) {
 
 function init() {
 	var sensor_id = getParameterByName("sensor_id");
+  var case_number = getParameterByName("case_number");
+  document.getElementById("caseno").textContent = "Case#" + case_number;
 	$.get("/api/v1/sensor-location/" + sensor_id, function(data, status){
 		initMap(data);
 		loadServiceCenter(data.lat, data.lng);
