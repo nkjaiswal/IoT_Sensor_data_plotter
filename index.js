@@ -216,5 +216,30 @@ app.get("/api/v1/sensor-location/:sensor_id", function(req, res){
 	res.json(sensor_location[req.params.sensor_id]);
 });
 
+//----------------------SMS Send------------------
+var Client = require('node-rest-client').Client;
+var client = new Client();
 
+app.get("/api/v1/sms/:mobile", function(req, res){
+	var args = {
+	    data: {
+		  "sender": "SFINSR",
+		  "route": "4",
+		  "country": "91",
+		  "sms": [
+		    {
+		      "message": req.query.msg ,
+		      "to": [
+		        req.params.mobile
+		      ]
+		    }
+		  ]
+		},
+	    headers: { "Content-Type": "application/json", "authkey":"163486Ab6LYlUXQwx5cc40582" }
+	};
+	console.log(JSON.stringify(args));
+	client.post("https://api.msg91.com/api/v2/sendsms?country=91", args, function (data, response) {
+	    res.json(data);
+	});
+});
 
