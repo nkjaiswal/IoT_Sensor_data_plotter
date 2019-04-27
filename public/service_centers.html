@@ -7,7 +7,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        height: 50%;
+        height: 30%;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -16,6 +16,7 @@
         padding: 0;
       }
     </style>
+    <link rel="stylesheet" type="text/css" href="./salesforce-lightning-design-system-2.8.3/assets/styles/salesforce-lightning-design-system.css" />
 </head>
 <body>
 	<div>
@@ -23,17 +24,127 @@
 		
 	</div>
 	<br>
+
+
+
+  <article class="slds-card">
+<div class="slds-path">
+<div class="slds-grid slds-path__track">
+<div class="slds-grid slds-path__scroller-container">
+<div class="slds-path__scroller" role="application">
+<div class="slds-path__scroller_inner">
+<ul class="slds-path__nav" role="listbox" aria-orientation="horizontal">
+<li class="slds-path__item slds-is-current slds-is-active" role="presentation">
+<a aria-selected="true" class="slds-path__link" href="javascript:void(0);" id="path-1" role="option" tabindex="0">
+<span class="slds-path__stage">
+<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>
+<span class="slds-assistive-text">Current Stage:</span>
+</span>
+<span class="slds-path__title">Claim Initiated</span>
+</a>
+</li>
+<li class="slds-path__item slds-is-incomplete" role="presentation">
+<a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-2" role="option" tabindex="-1">
+<span class="slds-path__stage">
+<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>
+</span>
+<span class="slds-path__title">Workshop Assigned</span>
+</a>
+</li>
+<li class="slds-path__item slds-is-incomplete" role="presentation">
+<a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-3" role="option" tabindex="-1">
+<span class="slds-path__stage">
+<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>
+</span>
+<span class="slds-path__title">Under Assessment</span>
+</a>
+</li>
+<li class="slds-path__item slds-is-incomplete" role="presentation">
+<a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-4" role="option" tabindex="-1">
+<span class="slds-path__stage">
+<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>
+</span>
+<span class="slds-path__title">Assessment Completed</span>
+</a>
+</li>
+<li class="slds-path__item slds-is-incomplete" role="presentation">
+<a aria-selected="false" class="slds-path__link" href="javascript:void(0);" id="path-5" role="option" tabindex="-1">
+<span class="slds-path__stage">
+<svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>
+</span>
+<span class="slds-path__title">Closed</span>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="slds-grid slds-path__action">
+<span class="slds-path__stage-name">Stage: Under Assessment</span>
+</div>
+</div>
+</div>
+</article>
+
+
+
 	<div id="map" class=""></div>
 	<br>
 	<center>
-	<table border=1 id="service_center_list" class="w3-container">
-		<th>Service Center</th>
-		<th>Phone No</th>
-	</table>
+	
 	</center>
+
+
+
+
+
+<article class="slds-card">
+    <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__figure">
+            </div>
+            <div class="slds-media__body">
+                <h2 class="slds-card__header-title">
+<a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Nearby Workshops">
+<span>Nearby Workshops</span>
+</a>
+</h2>
+            </div>
+        </header>
+    </div>
+    <div class="slds-card__body">
+        <table border=1 id="service_center_list" class="w3-container">
+    
+    </table>
+    </div>
+</article>
+
+<center>
+<button class="slds-button slds-button_brand slds-path__mark-complete" onclick="confirmationDialog">
+<svg class="slds-button__icon slds-button__icon_left" aria-hidden="true">
+<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#check" />
+</svg>Request Tow Truck</button>
+</center>
+
+
+
+
 </body>
 <script>
 
+function confirmationDialog(){
+  
+}
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
 	name = name.replace(/[\[\]]/g, "\\$&");
@@ -71,30 +182,30 @@ function init() {
 }
 
 function loadServiceCenter(lat,lng){
-	document.getElementById("service_center_list").innerHTML = "";
+	
 	$.get("/api/v1/service-centers/" + lat + "/" + lng, function(data, status){
-		data.map(appendData);
+    var rows = "";
+		for(var i=0; i<data.length; i++){
+        rows += appendData(data[i],i);
+    }
+    document.getElementById("service_center_list").innerHTML = rows;
 	});
 }
-function appendData(data){
-	let frag = document.createDocumentFragment();
-  	let tr = document.createElement('tr');
 
-  	let td1 = document.createElement('td');
-  	td1.appendChild(document.createTextNode(data.Name));
-  	tr.appendChild(td1);
+var row = '<tr><td><div class="slds-grid slds-wrap"><div class="slds-col slds-size_2-of-12 ">  <div class="slds-checkbox_add-button"><input class="slds-assistive-text" type="checkbox" id="add-checkbox-IDN1" value="add-checkbox-IDN2" /><label for="add-checkbox-IDN3" class="slds-checkbox_faux"> <span class="slds-assistive-text">Add product</span></label>  </div> </div> <div class="slds-col slds-size_10-of-12 ">  <div class="slds-grid slds-grid_vertical"><div class="slds-col"> <span>DATA_NAME</span></div><div class="slds-col"> <span>DATA_ADDRESS</span></div><div class="slds-col"> <span>DATA_DISTANCE | ***</span></div>   <div class="slds-col"> <span><a href="tel:DATA_PHONE">Call</a></span></div></div> </div></div>  </td></tr>';
+function appendData(data,i){
+	  return row
+      .replace("DATA_DISTANCE", getDistance(data.sort_rank))
+      .replace("DATA_ADDRESS",data.Address)
+      .replace("DATA_NAME",data.Name)
+      .replace("IDN1",i)
+      .replace("IDN2",i)
+      .replace("IDN3",i)
+      .replace("DATA_PHONE",data.Phone);
+}
 
-  	let td2 = document.createElement('td');
-  	let link = document.createElement('a');
-  	link.href = 'tel:' + data.Phone;
-  	link.title = data.Phone;
-  	link.innerHTML = data.Phone;
-
-  	td2.appendChild(link);
-  	tr.appendChild(td2);
-
-  	frag.appendChild(tr);
-  	document.getElementById("service_center_list").appendChild(frag);
+function getDistance(radian){
+  return (radian*1000).toFixed(2) + " KM";
 }
 
 </script>
